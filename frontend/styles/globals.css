@@ -1,0 +1,424 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 0 0% 20%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 0 0% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 0 0% 20%;
+    --radius: 0.75rem;
+    --chart-1: 0 0% 40%;
+    --chart-2: 0 0% 50%;
+    --chart-3: 0 0% 60%;
+    --chart-4: 0 0% 70%;
+    --chart-5: 0 0% 80%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 0 0% 80%;
+    --primary-foreground: 222.2 84% 4.9%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 94.1%;
+    --chart-1: 0 0% 40%;
+    --chart-2: 0 0% 50%;
+    --chart-3: 0 0% 60%;
+    --chart-4: 0 0% 70%;
+    --chart-5: 0 0% 80%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Professional futuristic font classes using CSS variables */
+.font-futuristic {
+  font-family: var(--font-jetbrains-mono), monospace;
+}
+
+.font-futuristic-body {
+  font-family: var(--font-space-grotesk), sans-serif;
+}
+
+/* Apply professional futuristic fonts to pre-login pages */
+.pre-login-page {
+  font-family: var(--font-space-grotesk), sans-serif;
+}
+
+.pre-login-page h1,
+.pre-login-page h2,
+.pre-login-page h3,
+.pre-login-page h4,
+.pre-login-page h5,
+.pre-login-page h6 {
+  font-family: var(--font-space-grotesk), sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.pre-login-page .logo-text {
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.pre-login-page .nav-text {
+  font-family: var(--font-space-grotesk), sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.pre-login-page .button-text {
+  font-family: var(--font-space-grotesk), sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.pre-login-page .hero-title {
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.pre-login-page .section-title {
+  font-family: var(--font-space-grotesk), sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.pre-login-page .card-title {
+  font-family: var(--font-space-grotesk), sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.pre-login-page .mono-accent {
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+/* COMPLETELY REMOVE ALL FOCUS STYLES */
+*,
+*::before,
+*::after,
+*:focus,
+*:focus-visible,
+*:focus-within,
+button,
+button:focus,
+button:focus-visible,
+input,
+input:focus,
+input:focus-visible,
+textarea,
+textarea:focus,
+textarea:focus-visible,
+select,
+select:focus,
+select:focus-visible,
+[tabindex],
+[tabindex]:focus,
+[tabindex]:focus-visible,
+a:focus,
+a:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: inherit !important;
+  ring: none !important;
+  ring-offset: none !important;
+}
+
+/* Remove focus from all form elements */
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+input[type="number"]:focus,
+textarea:focus,
+select:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: inherit !important;
+  ring: none !important;
+  ring-offset: none !important;
+}
+
+/* Remove focus from dropdown menu items */
+[role="menuitem"]:focus,
+[role="menuitem"]:focus-visible,
+[role="button"]:focus,
+[role="button"]:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Remove focus from avatar and icon buttons */
+[data-radix-collection-item]:focus,
+[data-radix-collection-item]:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Remove focus from all Radix UI components */
+[data-radix-popper-content-wrapper],
+[data-radix-dropdown-menu-content],
+[data-radix-dropdown-menu-item],
+[data-radix-dropdown-menu-item]:focus,
+[data-radix-dialog-content],
+[data-radix-dialog-overlay],
+[data-radix-switch-root]:focus,
+[data-radix-switch-thumb]:focus,
+[data-radix-tabs-trigger]:focus,
+[data-radix-avatar-root]:focus,
+[data-radix-scroll-area-viewport]:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Remove focus from cards and interactive elements */
+.card:focus,
+.card:focus-visible,
+[data-card]:focus,
+[data-card]:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: inherit !important;
+}
+
+/* Ensure no browser default focus styles */
+:focus {
+  outline: none !important;
+}
+
+:focus-visible {
+  outline: none !important;
+}
+
+/* Remove any potential ring utilities from Tailwind */
+.focus\:ring-0:focus {
+  --tw-ring-offset-shadow: none !important;
+  --tw-ring-shadow: none !important;
+  box-shadow: none !important;
+}
+
+.focus\:ring-offset-0:focus {
+  --tw-ring-offset-width: 0px !important;
+}
+
+/* Button active states */
+button:active {
+  transform: scale(0.98);
+  transition: transform 0.1s ease;
+}
+
+button:active:not(.no-scale) {
+  transform: scale(0.95);
+}
+
+/* Custom gradient utilities - Updated to grayscale */
+.bg-gradient-radial {
+  background: radial-gradient(var(--tw-gradient-stops));
+}
+
+/* Custom animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+@keyframes glow {
+
+  0%,
+  100% {
+    text-shadow: 0 0 5px rgba(156, 163, 175, 0.5), 0 0 10px rgba(156, 163, 175, 0.3);
+  }
+
+  50% {
+    text-shadow: 0 0 10px rgba(156, 163, 175, 0.8), 0 0 20px rgba(156, 163, 175, 0.5);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.animate-pulse-slow {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-shimmer {
+  animation: shimmer 2s linear infinite;
+  background: linear-gradient(to right, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
+  background-size: 200px 100%;
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar for dark theme */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Dark theme specific styles */
+.dark-card {
+  background: rgba(17, 24, 39, 0.3);
+  border: 1px solid rgba(75, 85, 99, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+/* Cosmic particle effects */
+.cosmic-bg {
+  background: radial-gradient(circle at 50% 50%, rgba(156, 163, 175, 0.1) 0%, transparent 50%);
+}
+
+/* Text gradient effects - Updated to grayscale */
+.text-gradient {
+  background: linear-gradient(to bottom, #ffffff, #9ca3af);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Button hover effects for dark theme */
+.btn-dark {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.btn-dark:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+/* Loading states for dark theme */
+.skeleton-dark {
+  background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Responsive design helpers */
+@media (max-width: 640px) {
+  .mobile-padding {
+    @apply px-4;
+  }
+
+  .mobile-text {
+    @apply text-sm;
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  .print-break {
+    page-break-before: always;
+  }
+}
