@@ -39,8 +39,8 @@ export function LoginForm() {
         description: "You have been successfully logged in.",
       })
       router.push("/chat")
-    } catch (err) {
-      setError("Invalid credentials. Please try the demo account or check your login details.")
+    } catch (err: any) {
+      setError(err.message || "Invalid credentials. Please try the demo account or check your login details.")
     } finally {
       setIsLoading(false)
     }

@@ -3,6 +3,7 @@
 import { useState, useEffect, createContext, useContext } from "react"
 import type { ReactNode } from "react"
 import type { User } from "@/lib/auth"
+import { API_URL } from "@/lib/config"
 
 interface AuthContextType {
   user: User | null
@@ -25,11 +26,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setIsLoading(false)
       return
     }
-    fetch("http://localhost:8000/api/me", {
+    fetch(`${API_URL}/api/me`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
+        "Accept": "application/json",
       },
       credentials: "include",
     })
@@ -48,45 +50,81 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const login = async (email: string, password: string) => {
-    const res = await fetch("http://localhost:8000/api/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-      credentials: "include",
-    })
-    if (!res.ok) {
-      throw new Error("Invalid credentials")
+    try {
+      const res = await fetch(`${API_URL}/api/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({ email, password }),
+        credentials: "include",
+      })
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}))
+        let errorMessage = errorData.message || "Invalid credentials"
+        if (errorData.errors) {
+          const firstError = Object.values(errorData.errors)[0]
+          if (Array.isArray(firstError)) {
+            errorMessage = firstError[0] as string
+          } else if (typeof firstError === 'string') {
+            errorMessage = firstError
+          }
+        }
+        throw new Error(errorMessage)
+      }
+      const data = await res.json()
+      localStorage.setItem("auth_token", data.token)
+      localStorage.setItem("auth_user", JSON.stringify(data.user))
+      setUser(data.user as User)
+    } catch (error: any) {
+      console.error("Login error:", error)
+      throw error
     }
-    const data = await res.json()
-    localStorage.setItem("auth_token", data.token)
-    localStorage.setItem("auth_user", JSON.stringify(data.user))
-    setUser(data.user as User)
   }
 
   const register = async (name: string, email: string, password: string) => {
-    const res = await fetch("http://localhost:8000/api/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, password }),
-      credentials: "include",
-    })
-    if (!res.ok) {
-      throw new Error("Registration failed")
+    try {
+      const res = await fetch(`${API_URL}/api/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({ name, email, password }),
+        credentials: "include",
+      })
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}))
+        let errorMessage = errorData.message || "Registration failed"
+        if (errorData.errors) {
+          const firstError = Object.values(errorData.errors)[0]
+          if (Array.isArray(firstError)) {
+            errorMessage = firstError[0] as string
+          } else if (typeof firstError === 'string') {
+            errorMessage = firstError
+          }
+        }
+        throw new Error(errorMessage)
+      }
+      const data = await res.json()
+      localStorage.setItem("auth_token", data.token)
+      localStorage.setItem("auth_user", JSON.stringify(data.user))
+      setUser(data.user as User)
+    } catch (error: any) {
+      console.error("Registration error:", error)
+      throw error
     }
-    const data = await res.json()
-    localStorage.setItem("auth_token", data.token)
-    localStorage.setItem("auth_user", JSON.stringify(data.user))
-    setUser(data.user as User)
   }
 
   const logout = () => {
     const token = localStorage.getItem("auth_token")
     if (token) {
-      fetch("http://localhost:8000/api/logout", {
+      fetch(`${API_URL}/api/logout`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
         credentials: "include",
-      }).catch(() => {})
+      }).catch(() => { })
     }
     localStorage.removeItem("auth_token")
     localStorage.removeItem("auth_user")

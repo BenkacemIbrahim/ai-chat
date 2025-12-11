@@ -21,9 +21,6 @@ return Application::configure(basePath: dirname(__DIR__))
             'verified' => Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         ]);
 
-        $middleware->appendToGroup('api', [
-            Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

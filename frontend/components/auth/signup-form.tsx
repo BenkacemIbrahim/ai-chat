@@ -74,10 +74,10 @@ export function SignupForm() {
         title: "Account created successfully!",
         description: "Welcome to CHATAI. You can now start using your AI assistant.",
       })
-    } catch (err) {
+    } catch (err: any) {
       toast({
         title: "Registration failed",
-        description: "Please check your details and try again.",
+        description: err.message || "Please check your details and try again.",
         variant: "destructive",
       })
     } finally {

@@ -6,6 +6,7 @@ import { ChatSidebar } from "@/components/chat-sidebar"
 import { ChatHeader } from "@/components/chat/chat-header"
 import { useAuth } from "@/hooks/use-auth"
 import type { Message } from "@ai-sdk/react"
+import { API_URL } from "@/lib/config"
 
 export function AuthenticatedChat() {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
@@ -33,9 +34,12 @@ export function AuthenticatedChat() {
   useEffect(() => {
     const token = localStorage.getItem("auth_token")
     if (!token || !user) return
-    fetch("http://localhost:8000/api/messages", {
+    fetch(`${API_URL}/api/messages`, {
       method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Accept": "application/json"
+      },
       credentials: "include",
     })
       .then(async (res) => {
@@ -44,7 +48,7 @@ export function AuthenticatedChat() {
         const items = (data.data ?? []).map((m: any) => ({ role: m.role, content: m.content })) as Message[]
         setMessages(items)
       })
-      .catch(() => {})
+      .catch(() => { })
   }, [user])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -58,9 +62,13 @@ export function AuthenticatedChat() {
     if (!token) return
     setIsLoading(true)
     try {
-      const res = await fetch("http://localhost:8000/api/chat", {
+      const res = await fetch(`${API_URL}/api/chat`, {
         method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+          "Accept": "application/json"
+        },
         body: JSON.stringify({ userId: user.id, message: input.trim() }),
         credentials: "include",
       })
@@ -98,12 +106,10 @@ export function AuthenticatedChat() {
       {/* Sidebar */}
       <div
         className={`
-          ${
-            isMobile
-              ? `fixed left-0 top-0 h-full z-50 transform transition-transform duration-300 ease-in-out ${
-                  isSidebarCollapsed ? "-translate-x-full" : "translate-x-0"
-                }`
-              : `transition-all duration-300 ease-in-out ${isSidebarCollapsed ? "w-0" : "w-80"} flex-shrink-0`
+          ${isMobile
+            ? `fixed left-0 top-0 h-full z-50 transform transition-transform duration-300 ease-in-out ${isSidebarCollapsed ? "-translate-x-full" : "translate-x-0"
+            }`
+            : `transition-all duration-300 ease-in-out ${isSidebarCollapsed ? "w-0" : "w-80"} flex-shrink-0`
           }
           overflow-hidden
         `}
