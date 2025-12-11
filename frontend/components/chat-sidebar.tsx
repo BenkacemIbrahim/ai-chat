@@ -1,20 +1,20 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Plus, Search, MessageCircle, Trash2, Edit, X } from "lucide-react"
+import { API_URL } from "@/lib/config"
+import { formatDistanceToNow } from "date-fns"
 
-const mockChats = [
-  { id: "1", title: "Help with React components", timestamp: "2 hours ago" },
-  { id: "2", title: "Python data analysis", timestamp: "1 day ago" },
-  { id: "3", title: "Creative writing assistance", timestamp: "2 days ago" },
-  { id: "4", title: "Math problem solving", timestamp: "3 days ago" },
-  { id: "5", title: "Travel planning ideas", timestamp: "1 week ago" },
-]
+type HistoryItem = {
+  id: string
+  title: string
+  timestamp: string
+}
 
 interface ChatSidebarProps {
   onClose?: () => void
@@ -22,9 +22,48 @@ interface ChatSidebarProps {
 
 export function ChatSidebar({ onClose }: ChatSidebarProps) {
   const [searchQuery, setSearchQuery] = useState("")
+  const [history, setHistory] = useState<HistoryItem[]>([])
   const router = useRouter()
 
-  const filteredChats = mockChats.filter((chat) => chat.title.toLowerCase().includes(searchQuery.toLowerCase()))
+  useEffect(() => {
+    const token = localStorage.getItem("auth_token")
+    if (!token) return
+    fetch(`${API_URL}/api/messages`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+      },
+      credentials: "include",
+    })
+      .then(async (res) => {
+        if (!res.ok) return
+        const data = await res.json()
+        const items = Array.isArray(data?.data) ? data.data : []
+        if (items.length === 0) {
+          setHistory([])
+          return
+        }
+        const firstUser = items.find((m: any) => m.role === "user")
+        const last = items[items.length - 1]
+        const titleSource: string = String(firstUser?.content ?? "")
+        const title =
+          titleSource.length > 80 ? `${titleSource.slice(0, 80).trim()}…` : titleSource.trim() || "Untitled"
+        const created = last?.created_at ? new Date(last.created_at) : new Date()
+        setHistory([
+          {
+            id: "current",
+            title,
+            timestamp: formatDistanceToNow(created, { addSuffix: true }),
+          },
+        ])
+      })
+      .catch(() => { })
+  }, [])
+
+  const filteredHistory = history.filter((item) =>
+    item.title.toLowerCase().includes(searchQuery.toLowerCase())
+  )
 
   const handleNewChat = () => {
     // Refresh the current chat page to start a new conversation
@@ -73,7 +112,7 @@ export function ChatSidebar({ onClose }: ChatSidebarProps) {
       {/* Chat History */}
       <ScrollArea className="flex-1 px-4">
         <div className="space-y-2">
-          {filteredChats.map((chat) => (
+          {filteredHistory.map((chat) => (
             <div
               key={chat.id}
               className="group flex items-center justify-between p-3 rounded-lg hover:bg-gray-900 cursor-pointer"
